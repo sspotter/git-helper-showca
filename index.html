@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Git Helper</title>
+<meta name="description" content="An interactive terminal UI for Git: branches, commits, stash, merges, GitHub publishing and package scripts, with safety guards.">
+<style>
+  :root {
+    --bg: #fbf1c7; --panel: #ebdbb2; --text: #3c3836; --muted: #7c6f64;
+    --accent: #b57614; --green: #79740e; --blue: #076678; --line: #d5c4a1; --term: #282828; --term-text: #ebdbb2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1d2021; --panel: #282828; --text: #ebdbb2; --muted: #a89984;
+      --accent: #fabd2f; --green: #b8bb26; --blue: #83a598; --line: #3c3836; --term: #1d2021; --term-text: #ebdbb2;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  a { color: var(--blue); }
+  code, pre, kbd, .mono { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+  header.nav { padding: 20px 0; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .brand { font-weight: 700; letter-spacing: .02em; }
+  .brand span { color: var(--accent); }
+  nav a { margin-left: 18px; text-decoration: none; color: var(--muted); }
+  nav a:hover { color: var(--text); }
+  .hero { padding: 48px 0 32px; display: grid; gap: 40px; grid-template-columns: 1fr; align-items: center; }
+  @media (min-width: 900px) { .hero { grid-template-columns: 1fr 1.1fr; } }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.1; margin: 0 0 16px; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lead { color: var(--muted); font-size: 1.15rem; max-width: 34em; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 28px 0 8px; }
+  .btn {
+    display: inline-block; padding: 12px 22px; border-radius: 8px; text-decoration: none; font-weight: 600;
+    background: var(--accent); color: #282828; border: 2px solid var(--accent);
+  }
+  .btn.alt { background: transparent; color: var(--text); border-color: var(--line); }
+  .btn:hover { filter: brightness(1.08); }
+  .meta { color: var(--muted); font-size: .9rem; }
+  .term { background: var(--term); color: var(--term-text); border-radius: 10px; border: 1px solid var(--line); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+  .term .bar { display: flex; gap: 6px; padding: 10px 14px; background: rgba(127,127,127,.12); }
+  .term .bar i { width: 11px; height: 11px; border-radius: 50%; background: #928374; display: block; }
+  .term pre { margin: 0; padding: 16px 18px; font-size: .84rem; line-height: 1.55; overflow-x: auto; }
+  .term .h { color: #83a598; font-weight: 700; }
+  .term .sel { color: #fabd2f; font-weight: 700; }
+  .term .dim { color: #928374; }
+  .term .ok { color: #b8bb26; }
+  section { padding: 56px 0 8px; }
+  h2 { font-size: 1.7rem; margin: 0 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 28px; max-width: 40em; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
+  .card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .card p { margin: 0; color: var(--muted); font-size: .96rem; }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  th { color: var(--muted); font-weight: 600; font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; }
+  kbd { background: var(--bg); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 1px 7px; font-size: .88rem; color: var(--accent); }
+  .steps { counter-reset: s; display: grid; gap: 14px; }
+  .step { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px 16px 58px; position: relative; }
+  .step::before { counter-increment: s; content: counter(s); position: absolute; left: 18px; top: 16px; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #282828; font-weight: 700; display: grid; place-items: center; }
+  .step pre { margin: 8px 0 0; background: var(--term); color: var(--term-text); padding: 12px 14px; border-radius: 8px; overflow-x: auto; font-size: .88rem; }
+  footer { margin-top: 64px; padding: 28px 0 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: .92rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="nav">
+    <div class="brand">git<span>-</span>helper</div>
+    <nav><a href="#features">Features</a><a href="#keys">Shortcuts</a><a href="#install">Install</a><a href="#safety">Safety</a></nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>Git, <em>without</em> the flags you forget.</h1>
+      <p class="lead">An interactive terminal UI that wraps the <code>git</code> CLI in safe, guided menus: branches, commits, stash, merges, GitHub publishing and your <code>package.json</code> scripts, all from one screen.</p>
+      <div class="cta">
+        <a class="btn" href="downloads/git-helper-v5.2.1.exe" download>Download for Windows</a>
+        <a class="btn alt" href="#install">How to install</a>
+      </div>
+      <div class="meta">v5.2.1 &middot; single .exe, no installer &middot; requires Git on PATH</div>
+    </div>
+
+    <div class="term" role="img" aria-label="Git Helper dashboard in a terminal">
+      <div class="bar"><i></i><i></i><i></i></div>
+<pre><span class="h">📁 Repository:</span> my-project   <span class="dim">🌿 main  ⬆ 1  ✎ 3 modified</span>
+
+<span class="h">💡 Suggested Actions</span>
+  🚀 Commit your 3 changes
+<span class="h">⚡ Actions</span>
+  📦 Package scripts
+<span class="sel">❯ 🚀 Quick Commit &amp; Push</span>
+  📦 Commit
+  ⬆️ Push        ⬇️ Pull       🔄 Fetch
+  🗃️ Stash changes
+  📡 Remotes     🌿 Branches   📜 History
+  📄 New file / folder
+  🌐 Publish to GitHub
+  🔀 Merge       📊 View status
+
+<span class="dim">↑/↓ nav | Enter select | x quick-push | t scripts | g publish</span></pre>
+    </div>
+  </div>
+
+  <section id="features">
+    <h2>Everything you reach for, one keypress away</h2>
+    <p class="sub">Every action goes through a safety check first, and the dashboard refreshes after each change so what you see is what Git has.</p>
+    <div class="grid">
+      <div class="card"><h3>🚀 Quick Commit &amp; Push</h3><p>Stage everything, commit and push in one step. It is the default selection when the dashboard opens.</p></div>
+      <div class="card"><h3>📦 Package scripts</h3><p>Lists your <code>package.json</code> scripts (npm, pnpm, yarn or bun) and runs the one you pick in a new terminal window.</p></div>
+      <div class="card"><h3>🌐 Publish to GitHub</h3><p>Create a public or private repo and push, in one flow. It installs and signs in the GitHub CLI for you if needed.</p></div>
+      <div class="card"><h3>🌿 Branches &amp; merges</h3><p>Create, switch and delete branches with guards, start merges, see conflicts and abort cleanly.</p></div>
+      <div class="card"><h3>🗃️ Stash &amp; restore</h3><p>Stash everything including untracked files, restore later, or stash and pull when a pull would collide.</p></div>
+      <div class="card"><h3>🔍 Diff viewer</h3><p>Read staged and unstaged diffs with colored +/- lines and scrolling, before you commit.</p></div>
+      <div class="card"><h3>↩️ History with undo</h3><p>Every action is recorded, and the safely reversible ones can be undone from the history screen.</p></div>
+      <div class="card"><h3>📄 New file / folder</h3><p>Create files and folders from inside the app, with a built-in editor for text and markdown.</p></div>
+      <div class="card"><h3>🖱️ Right-click menu</h3><p>Optional "Open Git Helper here" entry in Windows Explorer, for any folder.</p></div>
+    </div>
+  </section>
+
+  <section id="keys">
+    <h2>Shortcuts</h2>
+    <p class="sub">Press <kbd>?</kbd> inside the app for the full reference.</p>
+    <table>
+      <tr><th>Key</th><th>Action</th><th>Key</th><th>Action</th></tr>
+      <tr><td><kbd>x</kbd></td><td>Quick Commit &amp; Push</td><td><kbd>b</kbd></td><td>Branches</td></tr>
+      <tr><td><kbd>t</kbd></td><td>Package scripts</td><td><kbd>l</kbd></td><td>Commit log</td></tr>
+      <tr><td><kbd>g</kbd></td><td>Publish to GitHub</td><td><kbd>z</kbd> / <kbd>Z</kbd></td><td>Stash / restore</td></tr>
+      <tr><td><kbd>c</kbd></td><td>Commit</td><td><kbd>n</kbd></td><td>New file / folder</td></tr>
+      <tr><td><kbd>p</kbd> / <kbd>f</kbd></td><td>Push / fetch</td><td><kbd>h</kbd></td><td>Action history</td></tr>
+    </table>
+  </section>
+
+  <section id="install">
+    <h2>Install in a minute</h2>
+    <p class="sub">Windows. Git must be installed and on your PATH.</p>
+    <div class="steps">
+      <div class="step"><strong>Download</strong> <code>git-helper-v5.2.1.exe</code> from the button above and put it in a folder you keep tools in.</div>
+      <div class="step"><strong>Run it</strong> from any repository folder.
+<pre>git-helper-v5.2.1.exe</pre></div>
+      <div class="step"><strong>Optional:</strong> rename it to <code>gitt.exe</code> and add that folder to your <code>PATH</code> so <code>gitt</code> works in PowerShell, cmd and Git Bash.
+<pre>gitt            # open the dashboard
+gitt -n         # list package.json scripts in the terminal
+gitt --version</pre></div>
+    </div>
+  </section>
+
+  <section id="safety">
+    <h2>Built to not hurt you</h2>
+    <p class="sub">The UI never talks to Git directly. Every destructive action passes a validation guard first, and the layers are strict.</p>
+    <div class="grid">
+      <div class="card"><h3>Guards before actions</h3><p>Deleting a branch, discarding changes or pushing is validated before it runs, with explicit confirmations.</p></div>
+      <div class="card"><h3>Pushes just work</h3><p>A missing upstream is set automatically on the first push instead of surfacing a raw Git error.</p></div>
+      <div class="card"><h3>Older Git supported</h3><p>Falls back from <code>git switch</code> to <code>git checkout</code> and from <code>git restore</code> to <code>git reset</code>.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap" style="padding:0">Git Helper v5.2.1 &middot; built with Go, Bubble Tea and Lip Gloss &middot; <a href="downloads/git-helper-v5.2.1.exe" download>Download</a></div>
+  </footer>
+</div>
+</body>
+</html>
