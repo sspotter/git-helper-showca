@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="446" viewBox="0 0 760 446" role="img" aria-label="gitt - dashboard">
+<rect width="760" height="446" rx="10" fill="#1d2021" stroke="#3c3836"/>
+<rect width="760" height="34" rx="10" fill="#282828"/><rect y="24" width="760" height="10" fill="#282828"/>
+<circle cx="20" cy="17" r="6" fill="#fb4934"/><circle cx="40" cy="17" r="6" fill="#fabd2f"/><circle cx="60" cy="17" r="6" fill="#b8bb26"/>
+<text x="380" y="22" fill="#928374" font-size="12" text-anchor="middle" font-family="Segoe UI,sans-serif">gitt - dashboard</text>
+<g font-family="Cascadia Code,Consolas,monospace" font-size="14" style="white-space:pre"><text x="22" y="60" xml:space="preserve" style="white-space:pre"><tspan fill="#83a598">📁 Repository: </tspan><tspan fill="#ebdbb2">my-project</tspan></text>
+<text x="22" y="82" xml:space="preserve" style="white-space:pre"><tspan fill="#83a598">🌿 Branch: </tspan><tspan fill="#ebdbb2">main   </tspan><tspan fill="#928374">⬆ 1 ahead   ✎ 3 modified</tspan></text>
+<text x="22" y="104" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2"></tspan></text>
+<text x="22" y="126" xml:space="preserve" style="white-space:pre"><tspan fill="#83a598">💡 Suggested Actions</tspan></text>
+<text x="22" y="148" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2">  🚀 Commit your 3 changes</tspan></text>
+<text x="22" y="170" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2"></tspan></text>
+<text x="22" y="192" xml:space="preserve" style="white-space:pre"><tspan fill="#83a598">⚡ Actions</tspan></text>
+<text x="22" y="214" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2">  📦 Package scripts</tspan></text>
+<text x="22" y="236" xml:space="preserve" style="white-space:pre"><tspan fill="#fabd2f">❯ 🚀 Quick Commit &amp; Push</tspan></text>
+<text x="22" y="258" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2">  📦 Commit</tspan></text>
+<text x="22" y="280" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2">  ⬆️ Push</tspan></text>
+<text x="22" y="302" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2">  ⬇️ Pull</tspan></text>
+<text x="22" y="324" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2">  🗃️ Stash changes</tspan></text>
+<text x="22" y="346" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2">  🌿 Branches</tspan></text>
+<text x="22" y="368" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2">  🌐 Publish to GitHub</tspan></text>
+<text x="22" y="390" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2"></tspan></text>
+<text x="22" y="412" xml:space="preserve" style="white-space:pre"><tspan fill="#928374">↑/↓ nav | Enter select | x quick-push | t scripts | p push | g publish | ? help</tspan></text>
+</g></svg>

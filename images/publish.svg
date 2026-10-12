@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="248" viewBox="0 0 760 248" role="img" aria-label="gitt - publish to GitHub">
+<rect width="760" height="248" rx="10" fill="#1d2021" stroke="#3c3836"/>
+<rect width="760" height="34" rx="10" fill="#282828"/><rect y="24" width="760" height="10" fill="#282828"/>
+<circle cx="20" cy="17" r="6" fill="#fb4934"/><circle cx="40" cy="17" r="6" fill="#fabd2f"/><circle cx="60" cy="17" r="6" fill="#b8bb26"/>
+<text x="380" y="22" fill="#928374" font-size="12" text-anchor="middle" font-family="Segoe UI,sans-serif">gitt - publish to GitHub</text>
+<g font-family="Cascadia Code,Consolas,monospace" font-size="14" style="white-space:pre"><text x="22" y="60" xml:space="preserve" style="white-space:pre"><tspan fill="#83a598">🌐 Publish to GitHub</tspan></text>
+<text x="22" y="82" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2"></tspan></text>
+<text x="22" y="104" xml:space="preserve" style="white-space:pre"><tspan fill="#83a598">Repository name:</tspan></text>
+<text x="22" y="126" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2">my-project█</tspan></text>
+<text x="22" y="148" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2"></tspan></text>
+<text x="22" y="170" xml:space="preserve" style="white-space:pre"><tspan fill="#83a598">Visibility: </tspan><tspan fill="#8ec07c">Private</tspan></text>
+<text x="22" y="192" xml:space="preserve" style="white-space:pre"><tspan fill="#ebdbb2"></tspan></text>
+<text x="22" y="214" xml:space="preserve" style="white-space:pre"><tspan fill="#928374">Tab public/private | Enter create repo &amp; push | Esc cancel</tspan></text>
+</g></svg>
