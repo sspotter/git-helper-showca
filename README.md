@@ -4,7 +4,7 @@ An interactive terminal UI for Git: branches, commits, stash, merges, GitHub pub
 
 ![Showcase site](images/site.png)
 
-**[⬇️ Download for Windows (v5.2.1)](downloads/git-helper-v5.2.1.exe)** — single `.exe`, no installer. Requires Git on your `PATH`.
+**[⬇️ Download for Windows (v5.2.1)](https://github.com/sspotter/git-helper-showca/releases/download/cli/git-helper-v5.2.1.exe)** — single `.exe`, no installer. Requires Git on your `PATH`.
 
 ## Screens
 
@@ -63,4 +63,4 @@ gitt --version
 
 ## Deploy this site
 
-Push to GitHub, then Settings → Pages → deploy from branch `main`, folder `/ (root)`. To update, copy the new exe into `downloads/` as `git-helper-vX.Y.Z.exe` and change the version in `index.html` and this file.
+Pages deploys from `master` through `.github/workflows/static.yml`. The exe is not stored in the repo (`*.exe` is gitignored); it is a release asset on the `cli` release. To update, upload the new exe to that release and change the link and version in `index.html` and this file.
